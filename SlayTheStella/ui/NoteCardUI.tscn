@@ -1,0 +1,123 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpqu0y31utftl"]
+
+[ext_resource type="Script" uid="uid://c3l5my4smbf7s" path="res://Scripts/UI/NoteCardUi.cs" id="1_q7t80"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_q7t80"]
+font_size = 32
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 185.0
+offset_top = -240.0
+offset_right = 185.0
+offset_bottom = -240.0
+script = ExtResource("1_q7t80")
+
+[node name="NoteIconContainer" type="VFlowContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_bottom = 331.111
+grow_horizontal = 0
+scale = Vector2(0.9, 0.9)
+
+[node name="Note0" type="TextureRect" parent="NoteIconContainer"]
+visible = false
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="NoteCount" type="Label" parent="NoteIconContainer/Note0"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.111115
+offset_top = -48.333344
+offset_right = 8.8888855
+offset_bottom = -3.3333435
+grow_horizontal = 0
+grow_vertical = 0
+text = "1"
+label_settings = SubResource("LabelSettings_q7t80")
+
+[node name="Note1" type="TextureRect" parent="NoteIconContainer"]
+visible = false
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="NoteCount" type="Label" parent="NoteIconContainer/Note1"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.111115
+offset_top = -48.333344
+offset_right = 8.8888855
+offset_bottom = -3.3333435
+grow_horizontal = 0
+grow_vertical = 0
+text = "1"
+label_settings = SubResource("LabelSettings_q7t80")
+
+[node name="Note2" type="TextureRect" parent="NoteIconContainer"]
+visible = false
+custom_minimum_size = Vector2(60, 50)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="NoteCount" type="Label" parent="NoteIconContainer/Note2"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.111115
+offset_top = -48.333344
+offset_right = 8.8888855
+offset_bottom = -3.3333435
+grow_horizontal = 0
+grow_vertical = 0
+text = "1"
+label_settings = SubResource("LabelSettings_q7t80")
+
+[node name="Note3" type="TextureRect" parent="NoteIconContainer"]
+visible = false
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="NoteCount" type="Label" parent="NoteIconContainer/Note3"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.111115
+offset_top = -48.333344
+offset_right = 8.8888855
+offset_bottom = -3.3333435
+grow_horizontal = 0
+grow_vertical = 0
+text = "1"
+label_settings = SubResource("LabelSettings_q7t80")

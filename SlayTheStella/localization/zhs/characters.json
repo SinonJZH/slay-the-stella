@@ -1,0 +1,17 @@
+{
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.aromaPrinciple": "混沌香气事件中的内心独白",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.banter.alive.endTurnPing": "多人模式：存活时回合结束对白",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.banter.dead.endTurnPing": "多人模式：死亡后回合结束对白",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.cardsModifierDescription": "自定义模式文本",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.cardsModifierTitle": "魔王卡牌",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.description": "魔王，开发中……",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.eventDeathPrevention": "死亡时事件对话",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.goldMonologue": "沉没宝库事件中对金币的独白",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.possessiveAdjective": "她的",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.pronounObject": "她",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.pronounPossessive": "她的",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.pronounSubject": "她",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.title": "魔王",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.titleObject": "魔王",
+  "SLAY_THE_STELLA_CHARACTER_MO_WANG.unlockText": "用[pink]{Prerequisite}[/pink]进行一局游戏来解锁这个角色。"
+}

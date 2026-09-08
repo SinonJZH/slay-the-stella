@@ -1,0 +1,132 @@
+# SlayTheStella — License / 许可证
+
+## 0. Language Versions / 语言版本
+
+This license contains English and Simplified Chinese versions. In case of
+any conflict, the **English** version shall prevail.
+
+本许可包含英文与简体中文两个版本。如有冲突，以**英文版**为准。
+
+---
+
+## 1. Original Code — MIT / 原创代码 — MIT
+
+The original code and documentation in this repository (e.g. `Scripts/`,
+`SlayTheStella/ui/`, `SlayTheStella/localization/`, and project
+configuration files) are licensed under the MIT License.
+
+本仓库中的原创代码与文档（如 `Scripts/`、`SlayTheStella/ui/`、
+`SlayTheStella/localization/` 及项目配置文件）适用 MIT 许可。
+
+### MIT License (English, canonical) / MIT 许可（英文正式文本）
+
+MIT License
+
+Copyright (c) 2026 SinonJZH
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+### MIT 许可（中文参考译文，仅供参考，以英文正式文本为准）
+
+MIT 许可
+
+版权所有 (c) 2026 SinonJZH
+
+特此免费授予任何获得本软件及相关文档文件（下称"本软件"）副本的人不受限制地
+处理本软件的权利，包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或
+出售本软件副本的权利，并允许将本软件授予的人为如此行事，但须满足以下条件：
+
+本软件的所有副本或实质部分均须包含上述版权声明及本许可声明。
+
+本软件按"原样"提供，作者或版权持有人不对任何明示或暗示的保证承担责任，
+包括但不限于对适销性、特定用途适用性及非侵权性的暗示保证。在任何情况下，
+作者或版权持有人均不对因本软件或其使用而产生的任何索赔、损害或其他责任
+承担责任，无论是合同诉讼、侵权诉讼还是其他诉讼。
+
+> Note: the "sell copies" right granted by the MIT License applies only to
+> the author's original code, not to the third-party assets described in
+> Section 2.
+>
+> 注：MIT 许可授予的"出售副本"权利仅针对作者原创代码，不包括第 2 节所述的
+> 第三方素材。
+
+---
+
+## 2. Third-Party Assets — "Stella Sora" / 第三方素材 — 《星塔旅人》
+
+Images, audio, and other assets under `SlayTheStella/images/` and
+`SlayTheStella/audios/` are taken from *Stella Sora* (ステラソラ) by
+Yostar, Inc., and remain the property of Yostar, Inc. They are used under
+Yostar's fan-creation guidelines:
+
+https://stellasora.jp/agreement
+
+Key points: individuals and non-corporate groups may freely create and
+distribute derivative works for non-profit purposes; modest income up to
+the amount of production costs (materials, tools, utilities, etc.) is
+considered within the non-profit scope. The guidelines may change without
+notice, and the official text prevails.
+
+This LICENSE does not re-license those assets to anyone.
+
+`SlayTheStella/images/` 与 `SlayTheStella/audios/` 下的图像、音频等素材取自
+悠星公司（Yostar, Inc.）的《星塔旅人》（ステラソラ），版权仍归悠星公司所有。
+素材依悠星官方二次创作指南使用：
+
+https://stellasora.jp/agreement
+
+要点：个人或非法人团体在非营利目的下可自由制作、分发二创作品；覆盖制作
+成本（原材料、工具、水电等费用）程度内的收益视为非营利范围。指南可能无
+预告变更，以官方原文为准。
+
+本 LICENSE 不构成对上述素材的再授权。
+
+---
+
+## 3. Distribution — "Slay the Spire 2" Mod Terms / 分发条款 — 《杀戮尖塔2》Mod 条款
+
+This repository is a mod for *Slay the Spire 2* by Mega Crit Games. Per the
+Mega Crit content policy:
+
+https://www.megacrit.com/content-policy/
+
+- This mod is free to download; donations are welcome, but no other
+  monetization is permitted, including paywalls or stretch-goal-based
+  fundraising (whether for profit or charity).
+- This mod is not officially affiliated with, or endorsed by, Mega Crit.
+
+本仓库是 Mega Crit Games《杀戮尖塔2》的 mod。依 Mega Crit 内容政策：
+
+https://www.megacrit.com/content-policy/
+
+- 本 mod 免费下载；欢迎捐赠，但不得以其他方式变现，包括付费墙或
+  stretch-goal 形式的众筹（无论盈利或慈善）。
+- 本 mod 并非 Mega Crit 官方关联或背书。
+
+---
+
+## 4. Not Covered by This License / 本许可未涵盖的内容
+
+- Git submodules under `_manual/` (the STS2 modding tutorials and
+  `STS2-RitsuLib`) are governed by the licenses of their own repositories.
+  `_manual/` 下的 git 子模块（STS2 mod 教程、`STS2-RitsuLib`）以其各自仓库的
+  许可为准。
+- `sts2.dll` and `0Harmony.dll` are referenced from the game installation at
+  build time and are not redistributed by this repository.
+  `sts2.dll` 与 `0Harmony.dll` 在构建时引用自游戏安装目录，本仓库不分发它们。

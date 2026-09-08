@@ -1,0 +1,8 @@
+{
+  "SLAY_THE_STELLA_CARD_MW_STRIKE.title": "Strike",
+  "SLAY_THE_STELLA_CARD_MW_STRIKE.description": "Deal {Damage:diff()} damage.",
+  "SLAY_THE_STELLA_CARD_MW_DEFEND.title": "Defend",
+  "SLAY_THE_STELLA_CARD_MW_DEFEND.description": "Gain {Block:diff()} Block.",
+  "SLAY_THE_STELLA_CARD_MW_TEST_CARD.title": "Test Card",
+  "SLAY_THE_STELLA_CARD_MW_TEST_CARD.description": "Deal {Damage:diff()} damage to an enemy. Then deal {SplashDamage:diff()} damage to ALL enemies."
+}

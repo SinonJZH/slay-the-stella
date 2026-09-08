@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <Sts2Dir>你的Slay the Spire 2游戏安装目录\</Sts2Dir>
+        <GodotExe>你的Godot可执行文件路径\Godot_vX.X.X-stable_mono_win64.exe</GodotExe>
+    </PropertyGroup>
+</Project>

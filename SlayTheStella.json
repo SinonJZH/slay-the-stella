@@ -1,0 +1,14 @@
+{
+  "id": "SlayTheStella",
+  "name": "杀戮星塔 - SlayTheStella",
+  "author": "SinonJZH",
+  "description": "《Slay the Spire 2》的《星塔旅人》（Stella Sora / ステラソラ）同人 Mod，当前仍在开发中。",
+  "version": "0.0.0",
+  "min_game_version": "0.111.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [
+    { "id": "STS2-RitsuLib", "min_version": "0.5.14" }
+  ],
+  "affects_gameplay": true
+}

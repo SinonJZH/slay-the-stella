@@ -1,0 +1,147 @@
+[gd_scene load_steps=10 format=3 uid="uid://coptvwtpq2gcm"]
+
+[ext_resource type="Script" uid="uid://ba3jmyubytbq" path="res://Scripts/UI/NoteUI.cs" id="1_3pun2"]
+[ext_resource type="Texture2D" uid="uid://dhq6ebrlni6jr" path="res://SlayTheStella/images/icons/NoteMelodyOfPummel.png" id="2_molki"]
+[ext_resource type="Texture2D" uid="uid://c12hpngrexlop" path="res://SlayTheStella/images/icons/NoteMelodyOfLuck.png" id="3_irsyb"]
+[ext_resource type="Texture2D" uid="uid://kwwjswnsm1ma" path="res://SlayTheStella/images/icons/NoteMelodyOfBurst.png" id="4_4662f"]
+[ext_resource type="Texture2D" uid="uid://cl8si8peyaerg" path="res://SlayTheStella/images/icons/NoteMelodyOfStamina.png" id="5_n6man"]
+[ext_resource type="Texture2D" uid="uid://nu6od67cbjn7" path="res://SlayTheStella/images/icons/NoteMelodyOfFocus.png" id="6_1v4t4"]
+[ext_resource type="Texture2D" uid="uid://dea5nwii065jn" path="res://SlayTheStella/images/icons/NoteMelodyOfSkill.png" id="7_bb8gu"]
+[ext_resource type="Texture2D" uid="uid://g6b4ypmtn4ji" path="res://SlayTheStella/images/icons/NoteMelodyOfUltimate.png" id="8_dhwut"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_f67xq"]
+font_size = 24
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 176.0
+offset_bottom = 176.0
+grow_vertical = 2
+script = ExtResource("1_3pun2")
+
+[node name="NoteMelodyOfPummel" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -12.0
+offset_right = 76.0
+offset_bottom = 64.0
+texture = ExtResource("2_molki")
+
+[node name="PummelCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 12.0
+offset_right = 92.0
+offset_bottom = 46.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfLuck" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = -12.0
+offset_right = 156.0
+offset_bottom = 64.0
+texture = ExtResource("3_irsyb")
+
+[node name="LuckCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 12.0
+offset_right = 172.0
+offset_bottom = 46.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfBurst" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = -12.0
+offset_right = 236.0
+offset_bottom = 64.0
+texture = ExtResource("4_4662f")
+
+[node name="BurstCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 218.0
+offset_top = 12.0
+offset_right = 253.0
+offset_bottom = 46.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfStamina" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 240.0
+offset_top = -12.0
+offset_right = 316.0
+offset_bottom = 64.0
+texture = ExtResource("5_n6man")
+
+[node name="StaminaCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 12.0
+offset_right = 333.0
+offset_bottom = 46.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfFocus" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 41.0
+offset_right = 76.0
+offset_bottom = 117.0
+texture = ExtResource("6_1v4t4")
+
+[node name="FocusCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 66.0
+offset_right = 92.0
+offset_bottom = 100.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfSkill" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 41.0
+offset_right = 156.0
+offset_bottom = 117.0
+texture = ExtResource("7_bb8gu")
+
+[node name="SkillCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 66.0
+offset_right = 172.0
+offset_bottom = 100.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2
+
+[node name="NoteMelodyOfUltimate" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 41.0
+offset_right = 236.0
+offset_bottom = 117.0
+texture = ExtResource("8_dhwut")
+
+[node name="UltimateCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 218.0
+offset_top = 66.0
+offset_right = 253.0
+offset_bottom = 100.0
+text = "0"
+label_settings = SubResource("LabelSettings_f67xq")
+horizontal_alignment = 2

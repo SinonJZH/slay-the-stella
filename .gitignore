@@ -1,0 +1,18 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+/bin/
+
+/.reasonix/
+
+# Rider / JetBrains 用户级设置（含本机绝对路径，每人一份不提交）
+*.DotSettings.user
+SlayTheStellaPath.csproj
+
+# FMOD 工程机器状态（本机绝对路径，每人一份不提交）
+FMod/.user/
+FMod/.unsaved/
+FMod/.cache/
+
+/_manual/sts2_export/

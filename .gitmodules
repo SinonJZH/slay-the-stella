@@ -1,0 +1,6 @@
+[submodule "_manual/SlayTheSpire2ModdingTutorials"]
+	path = _manual/SlayTheSpire2ModdingTutorials
+	url = https://github.com/GlitchedReme/SlayTheSpire2ModdingTutorials.git
+[submodule "_manual/STS2-RitsuLib"]
+	path = _manual/STS2-RitsuLib
+	url = https://github.com/BAKAOLC/STS2-RitsuLib.git

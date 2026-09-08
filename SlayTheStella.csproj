@@ -1,0 +1,48 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1">
+    <Import Project=".\SlayTheStellaPath.csproj" Condition="Exists('.\SlayTheStellaPath.csproj')" />
+    
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
+        <LangVersion>13.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <Sts2DataDir>$(Sts2Dir)\data_sts2_windows_x86_64</Sts2DataDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="sts2">
+            <HintPath>$(Sts2DataDir)\sts2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <Reference Include="0Harmony">
+            <HintPath>$(Sts2DataDir)\0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <PackageReference Include="STS2.RitsuLib" Version="0.5.15" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="_manual\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="_manual\**" />
+    </ItemGroup>
+
+    <!-- 自动复制dll和json -->
+    <Target Name="Copy Mod" AfterTargets="PostBuildEvent">
+        <Message Text="Copying mod to Slay the Spire 2 mods folder..." Importance="high" />
+        <MakeDir Directories="$(Sts2Dir)\mods\" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(Sts2Dir)\mods\$(MSBuildProjectName)\" />
+        <Copy SourceFiles="$(MSBuildProjectName).json" DestinationFolder="$(Sts2Dir)/mods/$(MSBuildProjectName)/" />
+    </Target>
+
+    <Target Name="ExportPck" AfterTargets="Publish">
+        <Message Text="Copying PCK to Slay the Spire 2 mods folder..." Importance="high" />
+        <Exec Command="&quot;$(GodotExe)&quot; --headless --export-pack &quot;Windows Desktop&quot; &quot;$(Sts2Dir)/mods/$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;" EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1" ContinueOnError="WarnAndContinue" />
+    </Target>
+</Project>

@@ -1,0 +1,93 @@
+[gd_scene load_steps=3 format=3 uid="uid://leyqwcucbk51"]
+
+[ext_resource type="Texture2D" uid="uid://dil1i82j3kk58" path="res://SlayTheStella/images/MoWang/MoWang_bg.png" id="1_u8qct"]
+[ext_resource type="Texture2D" uid="uid://b1w1notwmacek" path="res://SlayTheStella/images/MoWang/MoWang_Character.png" id="2_2gren"]
+
+[node name="TestBg" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 1600.0
+offset_bottom = 660.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1280, 600)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1280.0
+offset_top = -600.0
+offset_right = 640.0
+offset_bottom = 478.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.44705883, 0.49803922, 1, 1)
+
+[node name="MoWangBg" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1078.0
+texture = ExtResource("1_u8qct")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MoWangCharacter" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = 910.0
+offset_top = -574.0
+offset_right = 2044.0
+offset_bottom = 1078.0
+texture = ExtResource("2_2gren")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ash1" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2(1832, -17)
+amount = 40
+lifetime = 15.0
+preprocess = 15.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(2000, 1)
+gravity = Vector2(27, 27)
+orbit_velocity_max = 0.03
+angle_min = 45.0
+angle_max = 90.0
+scale_amount_min = 10.0
+scale_amount_max = 10.0
+
+[node name="ash2" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2(1832, -17)
+amount = 40
+lifetime = 15.0
+preprocess = 15.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(2000, 1)
+gravity = Vector2(27, 27)
+orbit_velocity_max = 0.03
+angle_min = 45.0
+angle_max = 90.0
+scale_amount_min = 10.0
+scale_amount_max = 10.0
+color = Color(0.121879734, 0.15283081, 0.33476263, 1)
