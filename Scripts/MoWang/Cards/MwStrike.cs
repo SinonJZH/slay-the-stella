@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using SlayTheStella.Scripts.MoWang.Models;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace SlayTheStella.Scripts.MoWang.Cards;
@@ -35,7 +34,7 @@ public sealed class MwStrike() : MwHarmonyCardModel(1, CardType.Attack, CardRari
             .Targeting(cardPlay.Target)
             .Execute(choiceContext);
 
-        if (CheckNoteRequire(cardPlay.Player))
+        if (CheckNoteRequire(cardPlay.Player) > 0)
         {
             await DamageCmd.Attack(DynamicVars["HarmonyDmg"].BaseValue)
                 .FromCard(this, cardPlay)
@@ -50,8 +49,8 @@ public sealed class MwStrike() : MwHarmonyCardModel(1, CardType.Attack, CardRari
         DynamicVars.Damage.UpgradeValueBy(3m);
     }
 
-    public override List<(SecondaryResourceDefinition, int)> GetNoteRequire() =>
+    public override IReadOnlyList<(NoteType Note, int Amount)> GetNoteRequire() =>
     [
-        (ResNotes.NoteMelodyOfPummelDefinition, 1)
+        (NoteType.Pummel, 1)
     ];
 }

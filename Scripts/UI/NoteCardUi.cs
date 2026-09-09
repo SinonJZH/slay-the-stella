@@ -1,21 +1,21 @@
 using Godot;
-using System;
 using MegaCrit.Sts2.Core.Models;
 using SlayTheStella.Scripts.Shared.Models;
+using SlayTheStella.Scripts.Shared.SecondaryRes;
 
 public partial class NoteCardUi : Control
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
-	public void OnUpdate(CardModel card)
+    public void OnUpdate(CardModel card)
 	{
 		switch (card)
 		{
@@ -26,10 +26,12 @@ public partial class NoteCardUi : Control
 				{
 					if (i < notesList.Count)
 					{
-						var def = notesList[i];
+						var note = notesList[i];
 						var node = GetNode<TextureRect>(new NodePath($"NoteIconContainer/Note{i}"));
-						node.Texture = GD.Load<Texture2D>(def.LargeIconPath);
+						node.Texture = GD.Load<Texture2D>(ResNotes.GetDefinition(note).LargeIconPath);
 						node.Visible = true;
+                        var nodeCount = GetNode<Label>(new NodePath($"NoteIconContainer/Note{i}/NoteCount"));
+                        nodeCount.Visible = false;
 					}
 					else
 					{
@@ -48,10 +50,10 @@ public partial class NoteCardUi : Control
 					{
 						var req = notesList[i];
 						var node = GetNode<TextureRect>(new NodePath($"NoteIconContainer/Note{i}"));
-						node.Texture = GD.Load<Texture2D>(req.Item1.LargeIconPath);
+						node.Texture = GD.Load<Texture2D>(ResNotes.GetDefinition(req.Note).LargeIconPath);
 						node.Visible = true;
 						var nodeCount = GetNode<Label>(new NodePath($"NoteIconContainer/Note{i}/NoteCount"));
-						nodeCount.Text = req.Item2.ToString();
+						nodeCount.Text = req.Amount.ToString();
 						nodeCount.Visible = true;
 					}
 					else

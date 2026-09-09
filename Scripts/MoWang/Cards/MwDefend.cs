@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using SlayTheStella.Scripts.MoWang.Models;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace SlayTheStella.Scripts.MoWang.Cards;
@@ -29,7 +28,7 @@ public class MwDefend() : MwHarmonyCardModel(1, CardType.Skill, CardRarity.Basic
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        if (CheckNoteRequire(cardPlay.Player))
+        if (CheckNoteRequire(cardPlay.Player) > 0)
         {
             await CreatureCmd.GainBlock(Owner.Creature, (BlockVar)DynamicVars["HarmonyBlock"], cardPlay);
         }
@@ -40,8 +39,8 @@ public class MwDefend() : MwHarmonyCardModel(1, CardType.Skill, CardRarity.Basic
         DynamicVars.Block.UpgradeValueBy(3m);
     }
 
-    public override List<(SecondaryResourceDefinition, int)> GetNoteRequire() =>
+    public override IReadOnlyList<(NoteType Note, int Amount)> GetNoteRequire() =>
     [
-        (ResNotes.NoteMelodyOfStaminaDefinition, 1)
+        (NoteType.Stamina, 1)
     ];
 }

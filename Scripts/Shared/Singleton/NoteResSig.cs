@@ -16,7 +16,7 @@ public class NoteResSig() : HookedSingletonModel(HookType.Combat), ISecondaryRes
         StsLogger.InfoDebug(
             $"Player {Functions.GetPlayerName(context.Player)} resources [{context.Definition.Id}] changed: {context.Delta}");
 
-        if (context.Definition.Id.Equals(ResNotes.NoteMelodyOfPummelId))
+        if (ResNotes.TryGetNoteType(context.Definition.Id, out var noteType) && noteType == NoteType.Pummel)
         {
 
         }

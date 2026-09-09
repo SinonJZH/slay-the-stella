@@ -7,7 +7,6 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using SlayTheStella.Scripts.MoWang.Models;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
-using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace SlayTheStella.Scripts.MoWang.Cards;
@@ -42,9 +41,9 @@ public class MwTracesOfStarlight() : MwDiscCardModel(2, CardType.Skill, CardRari
         DynamicVars["VigorPower"].UpgradeValueBy(2m);
     }
 
-    public override List<SecondaryResourceDefinition> GetDiscNote() =>
+    public override IReadOnlyList<NoteType> GetDiscNote() =>
     [
-        ResNotes.NoteMelodyOfPummelDefinition,
-        ResNotes.NoteMelodyOfStaminaDefinition
+        NoteType.Pummel,
+        NoteType.Stamina
     ];
 }

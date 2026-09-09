@@ -15,30 +15,28 @@ namespace SlayTheStella.Scripts.UI;
 /// </summary>
 public partial class NoteUI : Control
 {
-	private readonly record struct NoteBinding(string CounterNodeName, Func<NoteCount, int> Getter);
-
-	/// <summary>面板计数 Label（子节点名，来自 NoteUI.tscn）与 <see cref="ResNotes.GetAllNoteCounts"/> 返回的 <see cref="NoteCount"/> 快照属性取值的映射。</summary>
+    /// <summary>面板计数 Label（子节点名，来自 NoteUI.tscn）与音符种类（<see cref="NoteType"/>）的映射，刷新时经 <see cref="NoteCount.GetCount"/> 取值。</summary>
 	private static readonly NoteBinding[] NoteBindings =
 	[
-		new("PummelCounter", counts => counts.Pummel),
-		new("LuckCounter", counts => counts.Luck),
-		new("BurstCounter", counts => counts.Burst),
-		new("StaminaCounter", counts => counts.Stamina),
-		new("FocusCounter", counts => counts.Focus),
-		new("SkillCounter", counts => counts.Skill),
-		new("UltimateCounter", counts => counts.Ultimate),
+		new("PummelCounter", NoteType.Pummel),
+		new("LuckCounter", NoteType.Luck),
+		new("BurstCounter", NoteType.Burst),
+		new("StaminaCounter", NoteType.Stamina),
+		new("FocusCounter", NoteType.Focus),
+		new("SkillCounter", NoteType.Skill),
+		new("UltimateCounter", NoteType.Ultimate),
 	];
 
-	private readonly Dictionary<string, Label> _counters = new();
-	private Player? _player;
+    private readonly Dictionary<string, Label> _counters = new();
+    private Player? _player;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		foreach (var binding in NoteBindings)
 			_counters[binding.CounterNodeName] = GetNode<Label>(binding.CounterNodeName);
 	}
 
-	/// <summary>
+    /// <summary>
 	/// 绑定当前战斗玩家并显示面板；玩家为 null（战斗外）时隐藏面板。
 	/// 由 RitsuLib 战斗 UI 更新路由在进入战斗 / 战斗状态变化时调用。
 	/// </summary>
@@ -55,7 +53,7 @@ public partial class NoteUI : Control
 		RefreshCounters();
 	}
 
-	/// <summary>
+    /// <summary>
 	/// 音符数量变化时的刷新入口，由 RitsuLib 的数量变化路由调用（只处理本面板绑定的玩家）。
 	/// </summary>
 	public void OnNoteChanged(SecondaryResourceChangeContext change)
@@ -66,7 +64,7 @@ public partial class NoteUI : Control
 		RefreshCounters();
 	}
 
-	private void RefreshCounters()
+    private void RefreshCounters()
 	{
 		var player = _player;
 		if (player == null)
@@ -78,7 +76,9 @@ public partial class NoteUI : Control
 			if (!_counters.TryGetValue(binding.CounterNodeName, out var label))
 				continue;
 
-			label.Text = binding.Getter(counts).ToString();
+			label.Text = counts.GetCount(binding.Note).ToString();
 		}
 	}
+
+    private readonly record struct NoteBinding(string CounterNodeName, NoteType Note);
 }

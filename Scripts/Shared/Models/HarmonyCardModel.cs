@@ -1,7 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
-using STS2RitsuLib.Combat.SecondaryResources;
 
 namespace SlayTheStella.Scripts.Shared.Models;
 
@@ -13,9 +12,7 @@ public abstract class HarmonyCardModel(
     bool shouldShowInCardLibrary = true)
     : StellaCardModel(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
 {
-    public abstract List<(SecondaryResourceDefinition, int)> GetNoteRequire();
-
-    protected override bool ShouldGlowGoldInternal => CheckNoteRequire(Owner);
+    protected override bool ShouldGlowGoldInternal => CheckNoteRequire(Owner) > 0;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords
     {
@@ -35,11 +32,18 @@ public abstract class HarmonyCardModel(
     /// </summary>
     protected virtual IEnumerable<CardKeyword> AdditionalCanonicalKeywords => [];
 
-    /// <summary>检查玩家当前持有的音符是否满足该卡的全部需求，满足返回 true。</summary>
-    protected bool CheckNoteRequire(Player player)
+    public abstract IReadOnlyList<(NoteType Note, int Amount)> GetNoteRequire();
+
+    /// <summary>
+    /// 计算玩家当前持有的音符满足该卡全部音符需求的倍数 n：对每个需求取「持有数量 / 需求数量」
+    /// （整数除法，向下取整）作为该音符自身的倍数，返回其中最小者——即全部需求同时达到 n 倍时的最大 n；
+    /// 存在任一需求未满足时返回 0，实际参与计算的需求为空（需求列表为空，或全部需求被忽略）时返回 1。
+    /// 注意：Amount 非正（含 0）的需求视为无效，直接忽略、不参与倍数计算。
+    /// </summary>
+    protected int CheckNoteRequire(Player player)
     {
         var playerNotes = ResNotes.GetAllNoteCounts(player);
-        var noteRequire = GetNoteRequire();
-        return noteRequire.All(noteDef => playerNotes.GetCount(noteDef.Item1) >= noteDef.Item2);
+        var require = GetNoteRequire().Where(req => req.Amount > 0).ToList();
+        return require.Count == 0 ? 1 : require.Min(req => playerNotes.GetCount(req.Note) / req.Amount);
     }
 }

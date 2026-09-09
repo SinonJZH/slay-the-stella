@@ -1,7 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
-using STS2RitsuLib.Combat.SecondaryResources;
 
 namespace SlayTheStella.Scripts.Shared.Models;
 
@@ -60,13 +59,13 @@ public abstract class DiscCardModel(
     /// </summary>
     protected virtual IEnumerable<CardKeyword> AdditionalCanonicalKeywords => [];
 
-    public abstract List<SecondaryResourceDefinition> GetDiscNote();
+    public abstract IReadOnlyList<NoteType> GetDiscNote();
 
     protected async Task GainNoteAfterPlay(CardPlay cardPlay)
     {
-        foreach (var def in GetDiscNote())
+        foreach (var note in GetDiscNote())
         {
-            await ResNotes.GainNote(cardPlay.Player, def, 1);
+            await ResNotes.GainNote(cardPlay.Player, note, 1);
         }
     }
 }
