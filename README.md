@@ -1,3 +1,5 @@
+**🌐 语言 / Language：** 简体中文 · [English](#english-version)
+
 <div align="center">
 
 <img src="SlayTheStella/mod_image.png" width="150" alt="SlayTheStella 图标" />
@@ -33,13 +35,13 @@
 
 ## ✨ 当前内容一览
 
-| 类别 | 数量 | 说明 |
-| --- | --- | --- |
-| 👑 角色 | 1 | 「魔王」MoWang（The Tyrant），可用角色 |
-| 🎴 卡牌 | 4 | 初始卡 3 张 + 测试卡 1 张（试作「协奏」/「丢弃」关键词系统） |
-| 📿 遗物 | 1 | 「维塔」Vita（初始遗物，占位） |
-| 🧪 药水 | 1 | 「罐装干劲汽水」 |
-| 🎵 自定义机制 | 1 套 | 13 种「音符」次级资源 + 战斗内音符面板（NoteUI） |
+| 类别 | 数量 | 说明                                                         |
+| --- | --- |--------------------------------------------------------------|
+| 👑 角色 | 1 | 「魔王」MoWang（The Tyrant），可用角色                       |
+| 🎴 卡牌 | 4 | 初始卡 3 张 + 测试卡 1 张（试作「协奏」/「秘纹」关键词系统） |
+| 📿 遗物 | 1 | 「维塔」Vita（初始遗物，占位）                               |
+| 🧪 药水 | 1 | 「罐装干劲汽水」                                             |
+| 🎵 自定义机制 | 1 套 | 13 种「音符」次级资源 + 战斗内音符面板（NoteUI）             |
 
 ## 👑 角色：魔王（MoWang）
 
@@ -72,11 +74,11 @@
 
 </div>
 
-| 卡牌 | 类型 | 费用 | 效果 |
-| --- | --- | --- | --- |
-| **打击** `MwStrike` | 攻击 | 1 | 造成 5 点伤害。**[协奏]**：持有满足条件的音符时，追加 1 点伤害 |
-| **防御** `MwDefend` | 技能 | 1 | 获得 5 点格挡。升级：格挡 +3 |
-| **星光的印记** `MwTracesOfStarlight` | 技能 | 2 | 获得 9 点格挡与 4 点活力。**[丢弃]**：打出后收集音符。升级：格挡 +4、活力 +2 |
+| 卡牌 | 类型 | 费用 | 效果                                                                         |
+| --- | --- | --- |------------------------------------------------------------------------------|
+| **打击** `MwStrike` | 攻击 | 1 | 造成 5 点伤害。**[协奏]**：持有满足条件的音符时，追加 1 点伤害               |
+| **防御** `MwDefend` | 技能 | 1 | 获得 5 点格挡。**[协奏]**：持有满足条件的音符时，追加 1 点格挡               |
+| **星光的印记** `MwTracesOfStarlight` | 技能 | 2 | 获得 9 点格挡与 4 点活力。**[秘纹]**：打出后收集音符。升级：格挡 +4、活力 +2 |
 
 ### 其他
 
@@ -106,7 +108,7 @@
 将《星塔旅人》的「音符」体系移植为杀戮尖塔 2 的**次级资源（Secondary Resource）**，作为魔王卡组的核心资源：
 
 - **13 种「之音」音符**：强攻 Pummel、幸运 Luck、暴发 Burst、体力 Stamina、专注 Focus、技巧 Skill、绝招 Ultimate、火 Ignis、水 Aqua、风 Ventus、地 Terra、光 Lux、暗 Umbra。
-- **[丢弃] Disc 卡**：打出后收集指定音符（如「星光的印记」）。
+- **[秘纹] Disc 卡**：打出后收集指定音符（如「星光的印记」）。
 - **[协奏] Harmony 卡**：当玩家持有的音符满足卡面需求时，触发追加效果（如「打击」的追加伤害）；满足条件时卡牌会泛金提示。
 - **战斗内音符面板（NoteUI）**：通过 RitsuLib 次级资源注册表挂载到战斗 UI，实时展示 13 种音符的持有数量与增减变化（场景 `SlayTheStella/ui/NoteUI.tscn`、`NoteCardUI.tscn`）。
 
@@ -197,8 +199,8 @@
 5. 产物放置：bank 需落到代码注册路径——`SlayTheStella/audios/desktop/*.bank`，`GUIDs.txt` 放 `SlayTheStella/audios/`（`desktop` 为平台子目录，详见下方「构建输出目录」）。`export_presets.cfg` 已通过 include 过滤（`*.bank`、`*/GUIDs.txt`）保证这些文件被打进 pck。
 6. 代码侧无需改动：`AudioUtils.Init()`（由 `Entry.Init` 调用）已用 `FmodStudioDeferredBankRegistration.RegisterBank(...)` / `RegisterStudioGuidMappings(...)` 注册上述两处；播放时用 `SfxCmd.Play("event:/...")` 或 `DamageCmd.Attack(...).WithHitFx(sfx: "event:/...")`。细节见官方教程 `_manual/SlayTheSpire2ModdingTutorials/RitsuLib/01 - 添加基础内容/10 - 添加音频/`。
 
-> [!NOTE] 构建输出目录
-> FMOD Studio 的 bank 输出目录（`Edit → Preferences → Build…` → *Built banks output directory*）自 1.07 起**保存在工程内**（`FMod/Metadata/Workspace.xml` 的 `builtBanksOutputDirectory`），随仓库提交、全组共享，且支持相对路径。本项目约定输出到仓库内 `SlayTheStella/audios/`（相对 `FMod/` 即 `../SlayTheStella/audios`），构建后自然得到 `audios/desktop/*.bank` 与 `audios/GUIDs.txt` 的布局。⚠️ 当前仓库中的 `FMod/` 工程**尚未写入该设置**（属性为空 → 默认输出到 `FMod/Build/`），`SlayTheStella/audios/` 下产物为早期构建残留；贡献者请在首次构建前设置一次输出目录（仅此一次，之后随 `Workspace.xml` 提交共享），此后克隆者即可直接 Build 得到正确产物。
+> [!NOTE]
+> FMOD Studio 的 bank 输出目录（`Edit → Preferences → Build…` → *Built banks output directory*）自 1.07 起**保存在工程内**（`FMod/Metadata/Workspace.xml` 的 `builtBanksOutputDirectory`），随仓库提交、全组共享，且支持相对路径。本项目约定输出到仓库内 `SlayTheStella/audios/`（相对 `FMod/` 即 `../SlayTheStella/audios`），构建后自然得到 `audios/desktop/*.bank` 与 `audios/GUIDs.txt` 的布局。
 
 ## 🤖 AI 辅助开发
 
@@ -256,3 +258,247 @@ SlayTheStella/localization/
 - [STS2-RitsuLib](https://github.com/BAKAOLC/STS2-RitsuLib) —— Mod 脚手架与自动注册基础设施
 - 《Slay the Spire 2》官方 Mod 教程（仓库内 `_manual/SlayTheSpire2ModdingTutorials`）
 - 悠星《星塔旅人》（ステラソラ）与所有玩家——感谢这个美丽的星塔世界
+
+---
+
+## English Version
+
+> [!NOTE]
+> The Simplified Chinese text above is the original, authoritative version of this README; this English section is a translation for convenience and may lag behind during active development.
+
+> [!WARNING]
+> The project is in its **0.0.0 early-development stage**. The current character and cards are mostly prototypes and placeholders — effects, numbers and assets may change drastically, so please do not treat them as the final product.
+>
+> This README is AI-generated. Since the project is under rapid development, the content here may not reflect the latest state.
+
+### 📖 What Is This
+
+A fan mod for *Slay the Spire 2*, themed around the mobile game *Stella Sora* (星塔旅人 / ステラソラ). The mod turns the most oppressive presence in the Star Tower universe — **the Tyrant (MoWang)** — into a playable character, gradually porting Star Tower systems such as Notes (音符), Disc (秘纹) and Harmony (协奏) into card mechanics of *Slay the Spire 2*.
+
+The current implementation is built on the [STS2.RitsuLib](https://github.com/BAKAOLC/STS2-RitsuLib) scaffolding; the codebase is organized around RitsuLib's **AutoRegistration** attributes and ships trilingual localization (Simplified Chinese / English / Japanese).
+
+### ✨ Current Content
+
+| Category | Count | Details |
+| --- | --- | --- |
+| 👑 Characters | 1 | MoWang (The Tyrant), playable character |
+| 🎴 Cards | 4 | 3 starter cards + 1 test card (prototyping the Harmony / Disc keyword systems) |
+| 📿 Relics | 1 | Vita (starter relic, placeholder) |
+| 🧪 Potions | 1 | Canned Vigor Soda |
+| 🎵 Custom mechanics | 1 set | 13 kinds of Notes as secondary resources + in-combat Notes panel (NoteUI) |
+
+### 👑 The Character: MoWang (The Tyrant)
+
+She is the ruler of the Star Tower, official character **NO.000** with the role of **BOSS**. In this mod, she steps down from the throne and becomes the master of your deck.
+
+<img src="SlayTheStella/images/MoWang/MoWang_Select.png" width="160" align="right" alt="MoWang character select portrait" />
+
+| Item | Value |
+| --- | --- |
+| Character ID / English name | `MoWang` / The Tyrant |
+| Gender | Female |
+| Starting HP / Gold | 99 / 99 |
+| Theme color | `#00468E` (deep star blue) |
+| Starter deck | 5× Strike, 5× Defend, 1× Traces of Starlight |
+| Starter relic | Vita |
+| Custom energy icon | `energy_mowang.png` (used on cards and the energy orb) |
+
+> [!NOTE]
+> The character name and setting are based on the official materials of *Stella Sora*; the CN/EN/JP term glossary lives in `_manual/stella-sora-glossary.md` in this repo.
+
+### 🎴 Cards
+
+#### Starter Deck
+
+<div align="center">
+
+<img src="SlayTheStella/images/cards/MwStrike.png" width="180" alt="Strike" />
+<img src="SlayTheStella/images/cards/MwDefend.png" width="180" alt="Defend" />
+<img src="SlayTheStella/images/cards/MwTracesOfStarlight.png" width="180" alt="Traces of Starlight" />
+
+</div>
+
+| Card | Type | Cost | Effect                                                                                              |
+| --- | --- | --- |-----------------------------------------------------------------------------------------------------|
+| **Strike** `MwStrike` | Attack | 1 | Deal 5 damage. **[Harmony]**: deal 1 additional damage when you hold the Notes required by the card |
+| **Defend** `MwDefend` | Skill | 1 | Gain 5 Block. **[Harmony]**: gain 1 additional Block when you hold the Notes required by the card   |
+| **Traces of Starlight** `MwTracesOfStarlight` | Skill | 2 | Gain 9 Block and 4 Vigor. **[Disc]**: collect Notes after playing. Upgraded: Block +4, Vigor +2     |
+
+#### Others
+
+| Card | Type | Cost | Effect |
+| --- | --- | --- | --- |
+| **Test Card** `MwTestCard` | Attack | 1 | Deal 2 damage to the target, then 1 damage to ALL enemies (for development/testing; may be removed later) |
+
+### 📿 Relics
+
+| Relic | Rarity | Description |
+| --- | --- | --- |
+| **Vita** `Vita` | Common | Starter relic. Under development, no effect yet. |
+| | | *“Your command is my will.”* |
+
+> Vita (Vita / ヴェータ) is the Tyrant's dedicated private secretary in *Stella Sora*; this mod features her as a companion item — the Tyrant's starter relic — as a placeholder.
+
+### 🧪 Potions
+
+| Potion | Rarity | Effect |
+| --- | --- | --- |
+| **Canned Vigor Soda** `MwCannedVigorSoda` | Common | Gain 3 Energy during combat |
+
+<img src="SlayTheStella/images/potions/MwCannedVigorSoda.png" width="96" alt="Canned Vigor Soda" />
+
+### 🎵 Gameplay Mechanics
+
+The Note system from *Stella Sora* is ported into *Slay the Spire 2* as a **secondary resource**, forming the core resource of the Tyrant's deck:
+
+- **13 kinds of “Notes”**: Pummel, Luck, Burst, Stamina, Focus, Skill, Ultimate, Ignis, Aqua, Ventus, Terra, Lux, Umbra.
+- **[Disc] cards**: collect the Notes shown on the card after playing it (e.g. Traces of Starlight).
+- **[Harmony] cards**: when the Notes you hold meet the card's requirement, trigger a bonus effect (e.g. Strike's bonus damage); the card glows gold while the requirement is met.
+- **In-combat Notes panel (NoteUI)**: mounted on the combat UI through the RitsuLib secondary-resource registry, showing the held amount of each of the 13 Notes and their changes in real time (scenes `SlayTheStella/ui/NoteUI.tscn`, `NoteCardUI.tscn`).
+
+Keywords and Notes each have dedicated icons (under `SlayTheStella/images/icons/`); card, relic and keyword descriptions all go through localization keys, so all three languages stay in sync.
+
+### 🛠️ Tech Stack
+
+| Layer | Choice |
+| --- | --- |
+| Engine / Rendering | Godot 4.5.1 (Mono / C#, `rendering_method=mobile`) |
+| Language | C# 13 (.NET 9, `net9.0`, Nullable enabled) |
+| Scaffolding | [STS2.RitsuLib](https://github.com/BAKAOLC/STS2-RitsuLib) 0.5.15 (AutoRegistration, `ModCharacterTemplate`, `DamageCmd`, etc.) |
+| Game references | `sts2.dll`, `0Harmony.dll` (referenced from the game install directory; not packaged with the mod) |
+| Audio | FMOD Studio 2.03 (banks loaded and played by code; see “🎧 FMOD Audio Project”) |
+| Localization | `localization/{zhs,eng,jpn}/`, default Simplified Chinese; all JSON files are UTF-8 without BOM |
+
+### 🚀 Installation (Players)
+
+> This mod is still under development and no official Release has been published; the following is the generic install method.
+
+1. Make sure **STS2-RitsuLib** (dependency version ≥ `0.5.14`) and game version ≥ `0.111.0` are installed.
+2. Put the build outputs `SlayTheStella.dll`, `SlayTheStella.json` and `SlayTheStella.pck` into the `mods/SlayTheStella/` folder of the game directory:
+   ```
+   <Slay the Spire 2 install dir>/
+   └── mods/
+       └── SlayTheStella/
+           ├── SlayTheStella.dll
+           ├── SlayTheStella.json
+           └── SlayTheStella.pck
+   ```
+
+### 🔨 Building from Source (Developers)
+
+> A more detailed illustrated environment-setup tutorial lives in the repo submodule `_manual/SlayTheSpire2ModdingTutorials/Basics/01 - 环境配置/` (available after initializing it).
+
+#### Environment Requirements
+
+- [Godot **4.5.1 stable mono**](https://godotengine.org/download/archive/4.5.1-stable/) (the same version as *Slay the Spire 2*; be sure to download the **.NET** build and keep the renderer on `Mobile` to match the game)
+- [.NET 9 SDK](https://dotnet.microsoft.com/zh-cn/download) (`net9.0` / C# 13; if you have .NET 10 installed and hit issues, switch back to 9)
+- IDE: **Rider** (recommended — its `Publish` builds both dll and pck in one step; for VS Code, install extensions such as `C# Dev Kit`; Visual Studio also works)
+- A local install of *Slay the Spire 2* (compilation references its `sts2.dll` / `0Harmony.dll`; build outputs are auto-copied into its `mods/` directory)
+- The `STS2.RitsuLib` dependency is restored automatically via NuGet — nothing to prepare manually
+
+#### Steps
+
+0. (Optional) To browse the official tutorials and RitsuLib sources locally after cloning, initialize the reference submodules:
+   ```
+   git submodule update --init --recursive
+   ```
+   `_manual/` is for reference only (already excluded from compilation in `.csproj`); building works fine without initializing it.
+1. Copy the path-config template and fill in your local paths:
+   ```
+   copy SlayTheStellaPath.csproj.example SlayTheStellaPath.csproj
+   ```
+   `SlayTheStellaPath.csproj` (holds local paths; excluded via `.gitignore`, so it won't be committed) needs two variables:
+   - `Sts2Dir`: the game install directory (references `sts2.dll` when compiling; build outputs are auto-copied afterwards)
+   - `GodotExe`: path to the Godot mono executable (used to export the PCK)
+2. Build. **Recommended**: run **Publish** in Rider (the `Release` / `ExportRelease` configurations). It completes, in order:
+   - `PostBuild`: compiles `SlayTheStella.dll` and copies the `dll` and `json` into `<Sts2Dir>/mods/SlayTheStella/`;
+   - after `Publish`, automatically invokes Godot (`--headless --export-pack "Windows Desktop"`) to export `SlayTheStella.pck` to the same directory.
+   Without Rider, running `dotnet publish` in a terminal achieves the same result (both Targets trigger the same way); to recompile code only without touching assets, `dotnet build` suffices (copies just dll/json; fast).
+3. Start the game. The first launch asks whether to enable the mod, and the game restarts once. When the “mod loaded” notice appears at the bottom right and the **Tyrant** shows up on the character-select screen, the mod is working (see the player-side install layout above).
+
+#### Output Artifacts
+
+- The three files under `mods/SlayTheStella/`: `dll` (code), `pck` (assets), `json` (mod manifest; required).
+- **Code-only changes**: re-run `build` / `Publish` — no need to rebuild the pck. **Asset changes** (images / scenes / audio banks) require re-exporting the pck.
+- mac support, if ever needed: change `binary_format/architecture="x86_64"` to `"msil"` in `export_presets.cfg` (this mod targets Windows; usually no action is needed).
+
+> [!TIP]
+> Assets such as the images in this repo are third-party material (see below); building from source is intended for personal / non-profit development and testing only.
+
+### 🎧 FMOD Audio Project
+
+Audio follows the same **FMOD Studio** pipeline as *Slay the Spire 2*: assets are arranged and built into banks in the FMOD project (`FMod/`, project format Studio 2.03), shipped into the pck with the resources, and registered/loaded at runtime by code (see below).
+
+#### Current Status: Placeholder Project
+
+- `FMod/` has **not started audio development yet**: the project only contains an empty `Master` bank and a directory skeleton (`STS2.fspro` + `Metadata/`) — no events, assets or audible content.
+- The bundled `SlayTheStella/audios/` (`GUIDs.txt` + `desktop/*.bank`) is a **placeholder artifact** left from an earlier build: it only keeps the whole pipeline (code registration → pck packaging → runtime loading) working. Actual audio is a later TODO.
+
+#### Custom Audio (for Contributors)
+
+1. Install [FMOD Studio](https://www.fmod.com/download#fmodstudio) 2.03 or newer (the official tutorial suggests 2.03.06, matching the game), and open `FMod/STS2.fspro`.
+2. Import audio assets under `Assets`; create your own bank under `Banks` (**don't touch `Master`**); create an event under `Events`, right-click it and choose `Assign To Bank` to point it at your bank.
+3. Route the event to the same bus as the vanilla game (e.g. `master/sfx`, `master/music`) via `Window → Mixer Routing` so the in-game volume/reverb settings take effect; then arrange it in the event sheet (timeline assembly, multi-instrument random triggers, etc.).
+4. `File → Build` to build the bank, then `File → Export GUIDs` to export `GUIDs.txt`.
+5. Output placement: banks must land at the code-registered path — `SlayTheStella/audios/desktop/*.bank` — and `GUIDs.txt` goes in `SlayTheStella/audios/` (`desktop` is the platform subdirectory; see “build output directory” below). `export_presets.cfg` already includes these files in the pck via include filters (`*.bank`, `*/GUIDs.txt`).
+6. No code changes needed: `AudioUtils.Init()` (called by `Entry.Init`) registers both locations with `FmodStudioDeferredBankRegistration.RegisterBank(...)` / `RegisterStudioGuidMappings(...)`; play audio with `SfxCmd.Play("event:/...")` or `DamageCmd.Attack(...).WithHitFx(sfx: "event:/...")`. Details in the official tutorial `_manual/SlayTheSpire2ModdingTutorials/RitsuLib/01 - 添加基础内容/10 - 添加音频/`.
+
+> [!NOTE]
+> FMOD Studio's bank output directory (`Edit → Preferences → Build…` → *Built banks output directory*) has been **stored inside the project** since 1.07 (`builtBanksOutputDirectory` in `FMod/Metadata/Workspace.xml`), so it is committed with the repo, shared by the whole team, and supports relative paths. This project outputs to `SlayTheStella/audios/` inside the repo (i.e. `../SlayTheStella/audios` relative to `FMod/`), which naturally yields the `audios/desktop/*.bank` and `audios/GUIDs.txt` layout after building.
+
+### 🤖 AI-Assisted Development
+
+This repo is prepared for AI coding assistants (such as GitHub Copilot, Cursor and Claude Code):
+
+- **AGENTS.md**: a project guide at the repo root, kept in sync with the code, covering project structure, build/deploy workflow, code conventions (the AutoRegistration pattern, localization key format, resource path conventions, etc.) and the local reference search order. AI assistants read it automatically and can start contributing based on it directly, without asking for a project overview.
+- **Decompiled-source directory `_manual/sts2_export/`**: the location agreed in AGENTS.md for the decompiled *Slay the Spire 2* sources (decompiled from the game's `sts2.dll` etc., containing `sts2.sln`), where AI assistants look up vanilla APIs and type signatures during development. This directory is **excluded via `.gitignore` and not committed**; it does not exist after a fresh clone. For AI-assisted development, you can prepare it locally (path conventions in AGENTS.md); its content never enters the repo.
+
+### 🗂️ Directory Structure
+
+```
+slay-the-stella/
+├── Scripts/                  # C# sources (compiled into the DLL)
+│   ├── Entry.cs              # Mod entry point ([ModInitializer])
+│   ├── MoWang/               # The “Tyrant” character: character, pools, cards, relics, potions, abstract models
+│   ├── Shared/               # Shared logic: card model abstraction, keywords, Note secondary resources (ResNotes)
+│   ├── UI/                   # In-combat NoteUI / NoteCardUI node scripts
+│   └── Utils/                # Constants / logging / localization / settings page / audio / data storage
+├── SlayTheStella/            # Godot resources (packed into the PCK)
+│   ├── ui/                   # Godot scenes (.tscn)
+│   ├── localization/         # Localization JSON (zhs / eng / jpn)
+│   ├── images/               # Character / card / relic / potion / icon assets
+│   ├── audios/               # FMOD bank placeholder artifacts (see “FMOD Audio Project”)
+│   └── mod_image.png         # Mod icon
+├── FMod/                     # FMOD Studio audio project (placeholder, not developed yet)
+├── _manual/                  # Internal references (tutorial/library submodules, glossary; sts2_export/ is local decompiled source, gitignored)
+├── project.godot
+├── SlayTheStella.csproj      # Project file (contains Targets that auto-copy into the game's mods directory)
+├── SlayTheStella.json        # Mod manifest
+└── export_presets.cfg        # Godot export presets
+```
+
+### 🌐 Localization
+
+Localization is organized as “one directory per language, one file per type”:
+
+```
+SlayTheStella/localization/
+├── zhs/  cards.json · potions.json · relics.json · characters.json   # Simplified Chinese (default)
+├── eng/  …                                                            # English
+├── jpn/  …                                                            # 日本語
+└── settings/  zhs.json · eng.json · jpn.json                          # Mod settings pages
+```
+
+Keys follow the `SLAY_THE_STELLA_{CATEGORY}_{NAME}.{field}` convention (e.g. `SLAY_THE_STELLA_CARD_MW_STRIKE.title`); card numbers are injected into description text dynamically via `DynamicVar` (e.g. `{Damage:diff()}`). When adding new content, please fill in all three languages.
+
+### 📄 License & Copyright
+
+- **Original code and documentation** (`Scripts/`, `SlayTheStella/ui/`, `SlayTheStella/localization/`, project config, etc.): licensed under the **MIT License**, Copyright (c) 2026 SinonJZH. See [LICENSE](LICENSE).
+- **Third-party assets** (`SlayTheStella/images/`, `SlayTheStella/audios/`): taken from *Stella Sora* (ステラソラ) by Yostar, Inc.; copyright belongs to Yostar. They are used only for non-profit purposes per its [official fan-content guidelines](https://stellasora.jp/agreement) and are **not re-licensed** along with this project's code.
+- **Distribution terms**: as a *Slay the Spire 2* mod, this project follows [Mega Crit's content policy](https://www.megacrit.com/content-policy/) — provided for free, no paywalls or indirect monetization. This project has no official affiliation with or endorsement from Mega Crit or Yostar.
+
+### 🙏 Acknowledgements
+
+- [STS2-RitsuLib](https://github.com/BAKAOLC/STS2-RitsuLib) — the mod scaffolding and AutoRegistration infrastructure
+- The official *Slay the Spire 2* modding tutorials (in-repo `_manual/SlayTheSpire2ModdingTutorials`)
+- Yostar's *Stella Sora* (ステラソラ) and all its players — thank you for this beautiful Star Tower world

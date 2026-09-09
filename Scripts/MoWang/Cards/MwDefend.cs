@@ -19,7 +19,7 @@ public class MwDefend() : MwHarmonyCardModel(1, CardType.Skill, CardRarity.Basic
     [
         CardTag.Defend
     ];
-    
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(5m, ValueProp.Move),
@@ -29,6 +29,10 @@ public class MwDefend() : MwHarmonyCardModel(1, CardType.Skill, CardRarity.Basic
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        if (CheckNoteRequire(cardPlay.Player))
+        {
+            await CreatureCmd.GainBlock(Owner.Creature, (BlockVar)DynamicVars["HarmonyBlock"], cardPlay);
+        }
     }
 
     protected override void OnUpgrade()
