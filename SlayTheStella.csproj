@@ -11,7 +11,8 @@
         <Sts2DataDir>$(Sts2Dir)\data_sts2_windows_x86_64</Sts2DataDir>
     </PropertyGroup>
 
-    <ItemGroup>
+    <!-- 本地开发：直接引用游戏本体程序集（路径来自本机 SlayTheStellaPath.csproj，未随仓库提交） -->
+    <ItemGroup Condition="'$(CI)' != 'true'">
         <Reference Include="sts2">
             <HintPath>$(Sts2DataDir)\sts2.dll</HintPath>
             <Private>false</Private>
@@ -21,7 +22,16 @@
             <HintPath>$(Sts2DataDir)\0Harmony.dll</HintPath>
             <Private>false</Private>
         </Reference>
+    </ItemGroup>
 
+    <!-- CI（GitHub Actions 自动设 CI=true）：改用 NuGet 引用程序集包，无需游戏本体。
+         版本对齐：0.111.0-beta 对应游戏 public-test 分支 v0.111.0；若切回 default 分支请换稳定版。 -->
+    <ItemGroup Condition="'$(CI)' == 'true'">
+        <PackageReference Include="FuYnAloft.Sts2.References" Version="0.111.0-beta" PrivateAssets="all" />
+        <PackageReference Include="Lib.Harmony" Version="2.4.2" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="STS2.RitsuLib" Version="0.5.15" />
     </ItemGroup>
 
@@ -33,15 +43,16 @@
       <EmbeddedResource Remove="_manual\**" />
     </ItemGroup>
 
-    <!-- 自动复制dll和json -->
-    <Target Name="Copy Mod" AfterTargets="PostBuildEvent">
+    <!-- 自动复制dll和json（仅本地构建；CI 无 $(Sts2Dir)，产物由 workflow 收集） -->
+    <Target Name="Copy Mod" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
         <Message Text="Copying mod to Slay the Spire 2 mods folder..." Importance="high" />
         <MakeDir Directories="$(Sts2Dir)\mods\" />
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(Sts2Dir)\mods\$(MSBuildProjectName)\" />
         <Copy SourceFiles="$(MSBuildProjectName).json" DestinationFolder="$(Sts2Dir)/mods/$(MSBuildProjectName)/" />
     </Target>
 
-    <Target Name="ExportPck" AfterTargets="Publish">
+    <!-- PCK 导出（仅本地 Publish；CI 由 workflow 单独下载 Godot 执行 export-pack） -->
+    <Target Name="ExportPck" AfterTargets="Publish" Condition="'$(CI)' != 'true'">
         <Message Text="Copying PCK to Slay the Spire 2 mods folder..." Importance="high" />
         <Exec Command="&quot;$(GodotExe)&quot; --headless --export-pack &quot;Windows Desktop&quot; &quot;$(Sts2Dir)/mods/$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;" EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1" ContinueOnError="WarnAndContinue" />
     </Target>

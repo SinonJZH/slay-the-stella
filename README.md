@@ -139,6 +139,7 @@
            ├── SlayTheStella.json
            └── SlayTheStella.pck
    ```
+3. 想抢先体验最新开发版，也可直接到 GitHub Releases 的 [`dev-latest`](https://github.com/SinonJZH/slay-the-stella/releases/tag/dev-latest) 下载：该 Release 由 GitHub Actions 在每次推送到 `main` 时自动构建并覆盖，始终对应最新提交。下载 `SlayTheStella.zip` 解压，把其中的 `SlayTheStella` 文件夹复制到游戏 `mods/` 目录即可（效果与上面手动放置三件套相同；仅供体验，不保证稳定）。
 
 ## 🔨 从源码构建（开发者）
 

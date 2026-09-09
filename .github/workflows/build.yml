@@ -1,0 +1,195 @@
+name: Build Mod
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write # 创建/删除 release 所需
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 输出本次运行上下文，便于在日志中定位是哪次提交/事件/分支触发
+      - name: 打印运行上下文（定位问题用）
+        run: |
+          Write-Output "======================================================"
+          Write-Output "==> 构建开始"
+          Write-Output "    仓库     : ${{ github.repository }}"
+          Write-Output "    触发事件 : ${{ github.event_name }}"
+          Write-Output "    分支/引用: ${{ github.ref }}"
+          Write-Output "    提交 SHA : ${{ github.sha }}"
+          Write-Output "    运行平台 : ${{ runner.os }}"
+          Write-Output "======================================================"
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('SlayTheStella.csproj') }}
+
+      # CI=true 由 GitHub Actions 自动设置，csproj 据此把 sts2/0Harmony 引用切换为 NuGet 引用程序集包
+      - name: Restore & Build DLL
+        run: |
+          Write-Output "==> 步骤 [Restore & Build DLL] 开始：恢复 NuGet 依赖并编译 DLL（ExportRelease）"
+          Write-Output "---- [1/2] dotnet restore SlayTheStella.sln ----"
+          dotnet restore SlayTheStella.sln
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Restore & Build DLL] dotnet restore 失败，退出码：$LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+          Write-Output "---- [1/2] 依赖恢复完成 ----"
+          Write-Output "---- [2/2] dotnet build -c ExportRelease ----"
+          dotnet build SlayTheStella.sln -c ExportRelease --no-restore
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Restore & Build DLL] dotnet build 失败，退出码：$LASTEXITCODE，请查看上方编译错误输出"
+            exit $LASTEXITCODE
+          }
+          Write-Output "==> 步骤 [Restore & Build DLL] 完成"
+
+      # Godot 解压到 RUNNER_TEMP（仓库根即 res://，解压到仓库内会被当成资源打进 PCK）
+      - name: Cache Godot 4.5.1
+        id: cache-godot
+        uses: actions/cache@v6
+        with:
+          path: ${{ runner.temp }}/godot
+          key: godot-4.5.1-mono
+
+      - name: Download Godot (cache miss only)
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          Write-Output "==> 步骤 [Download Godot] 开始：Godot 缓存未命中，需要下载 4.5.1 mono 版"
+          try {
+            New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\godot" | Out-Null
+            Write-Output "---- [1/2] 下载 Godot_v4.5.1-stable_mono_win64.zip ----"
+            Invoke-WebRequest -Uri "https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_mono_win64.zip" -OutFile "$env:RUNNER_TEMP\godot.zip"
+            Write-Output "---- [1/2] 下载完成：$env:RUNNER_TEMP\godot.zip ----"
+            Write-Output "---- [2/2] 解压到 $env:RUNNER_TEMP\godot ----"
+            Expand-Archive "$env:RUNNER_TEMP\godot.zip" -DestinationPath "$env:RUNNER_TEMP\godot"
+            Write-Output "==> 步骤 [Download Godot] 完成，解压结果："
+            Get-ChildItem "$env:RUNNER_TEMP\godot" | Select-Object -ExpandProperty FullName
+          } catch {
+            Write-Error "[Download Godot] 下载或解压 Godot 失败：$($_.Exception.Message)"
+            exit 1
+          }
+
+      - name: Export PCK
+        run: |
+          Write-Output "==> 步骤 [Export PCK] 开始：Godot 导入资源并导出 SlayTheStella.pck"
+          New-Item -ItemType Directory -Force dist | Out-Null
+          $godot = "$env:RUNNER_TEMP\godot\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64_console.exe"
+          if (-not (Test-Path $godot)) {
+            Write-Error "[Export PCK] 找不到 Godot 控制台：$godot"
+            Write-Error "[Export PCK] 请检查上方 [Download Godot] / [Cache Godot 4.5.1] 步骤是否成功"
+            exit 1
+          }
+          Write-Output "---- Godot 路径：$godot ----"
+          Write-Output "---- [1/2] Godot --headless --import（导入资源）----"
+          & $godot --headless --import
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Export PCK] Godot --import 失败，退出码：$LASTEXITCODE，请查看上方 Godot 控制台输出"
+            exit $LASTEXITCODE
+          }
+          Write-Output "---- [1/2] 资源导入完成 ----"
+          Write-Output "---- [2/2] Godot --export-pack 'Windows Desktop'（输出到 dist\SlayTheStella.pck）----"
+          & $godot --headless --export-pack "Windows Desktop" "$PWD\dist\SlayTheStella.pck"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Export PCK] Godot 导出失败，退出码：$LASTEXITCODE，请查看上方 Godot 控制台输出"
+            exit $LASTEXITCODE
+          }
+          if (-not (Test-Path "$PWD\dist\SlayTheStella.pck")) {
+            Write-Output "Godot 未产出 SlayTheStella.pck，dist 目录内容："
+            Get-ChildItem dist -Recurse -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+            throw "SlayTheStella.pck 缺失：请查看上方 Godot 控制台输出"
+          }
+          $pckSizeMB = [math]::Round((Get-Item "$PWD\dist\SlayTheStella.pck").Length / 1MB, 2)
+          Write-Output "==> 步骤 [Export PCK] 完成：SlayTheStella.pck 已生成（约 $pckSizeMB MB）"
+
+      - name: Assemble mod folder & zip
+        run: |
+          Write-Output "==> 步骤 [Assemble mod folder & zip] 开始：查找 DLL、组装 mod 目录并打包 zip"
+          # 排除 publish/（本地 Publish 产物）与 win-x64/（Godot export 时自动 publish 的 RID 产物）
+          $dll = Get-ChildItem -Path .godot\mono\temp\bin, bin -Recurse -Filter SlayTheStella.dll -ErrorAction SilentlyContinue |
+                 Where-Object { $_.FullName -notmatch '\\(publish|win-x64)\\' } |
+                 Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $dll) {
+            Write-Output "SlayTheStella.dll not found after build. Searching .godot and bin:"
+            Get-ChildItem -Path .godot, bin -Recurse -File -ErrorAction SilentlyContinue |
+              Select-Object -ExpandProperty FullName
+            throw "SlayTheStella.dll not found (Godot.NET.Sdk 输出位于 .godot\mono\temp\bin\<Configuration>\)"
+          }
+          Write-Output "---- 选定 DLL：$($dll.FullName)（$($dll.Length) 字节，生成时间 $($dll.LastWriteTime)）----"
+          New-Item -ItemType Directory -Force dist\mods\SlayTheStella | Out-Null
+          Write-Output "---- 复制 SlayTheStella.dll / .json / .pck 到 dist\mods\SlayTheStella ----"
+          Copy-Item $dll.FullName dist\mods\SlayTheStella\SlayTheStella.dll
+          Copy-Item SlayTheStella.json dist\mods\SlayTheStella\SlayTheStella.json
+          Copy-Item dist\SlayTheStella.pck dist\mods\SlayTheStella\SlayTheStella.pck
+          Write-Output "---- 压缩 dist\mods 为 dist\SlayTheStella.zip ----"
+          Compress-Archive -Path dist\mods -DestinationPath dist\SlayTheStella.zip -Force
+          $zipSizeMB = [math]::Round((Get-Item dist\SlayTheStella.zip).Length / 1MB, 2)
+          Write-Output "==> 步骤 [Assemble mod folder & zip] 完成：dist\SlayTheStella.zip 已生成（约 $zipSizeMB MB）"
+          Write-Output "--- dist 内容 ---"
+          Get-ChildItem dist -Recurse | Select-Object -ExpandProperty FullName
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: SlayTheStella-mod
+          path: dist/SlayTheStella.zip
+          if-no-files-found: error
+
+      # ---- 发布：main push → 覆盖式 dev pre-release（只保留最新一个）----
+      - name: Publish dev pre-release
+        if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          Write-Output "==> 步骤 [Publish dev pre-release] 开始：为提交 $(git rev-parse --short HEAD) 发布 dev-latest pre-release"
+          $repo = "${{ github.repository }}"
+          # 1) 删除旧的 release 与 git tag
+          Write-Output "---- [1/3] 删除旧 release：dev-latest（若不存在则忽略）----"
+          gh release delete dev-latest --yes --cleanup-tag
+          # 2) GitHub 对删 tag 会排队 "tag deleted" 事件，立即用同名 tag 重建会把新 release 打回 draft
+          #    （github.com/cli/cli/issues/8458、#5024），等待事件处理完再创建
+          Write-Output "---- [2/3] 旧 release/tag 删除请求已发出，等待 30 秒让 GitHub 处理排队事件……----"
+          Start-Sleep -Seconds 30
+          Write-Output "---- [2/3] 30 秒等待结束 ----"
+          # 3) 创建新的 dev-latest pre-release
+          Write-Output "---- [3/3] gh release create dev-latest（pre-release）----"
+          gh release create dev-latest dist/SlayTheStella.zip --repo $repo --prerelease `
+            --title "Dev build $(git rev-parse --short HEAD)" `
+            --notes "Latest dev build from commit $(git rev-parse --short HEAD)"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Publish dev pre-release] gh release create 失败，退出码：$LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+          Write-Output "==> 步骤 [Publish dev pre-release] 完成：dev-latest 已更新"
+
+      # ---- 发布：tag → 正式 release ----
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          Write-Output "==> 步骤 [Publish release] 开始：为 tag ${{ github.ref_name }} 创建正式 release"
+          gh release create "${{ github.ref_name }}" dist/SlayTheStella.zip --repo "${{ github.repository }}" --title "${{ github.ref_name }}"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "[Publish release] gh release create 失败，退出码：$LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+          Write-Output "==> 步骤 [Publish release] 完成：${{ github.ref_name }} 已发布"
