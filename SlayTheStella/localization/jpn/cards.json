@@ -1,8 +1,10 @@
 {
   "SLAY_THE_STELLA_CARD_MW_STRIKE.title": "打撃",
-  "SLAY_THE_STELLA_CARD_MW_STRIKE.description": "{Damage:diff()}のダメージを与える。",
+  "SLAY_THE_STELLA_CARD_MW_STRIKE.description": "{Damage:diff()}のダメージを与える。\n[gold]協奏[/gold]：さらに{HarmonyDmg:diff()}のダメージを与える。",
   "SLAY_THE_STELLA_CARD_MW_DEFEND.title": "防御",
-  "SLAY_THE_STELLA_CARD_MW_DEFEND.description": "ブロックを{Block:diff()}獲得する。",
+  "SLAY_THE_STELLA_CARD_MW_DEFEND.description": "ブロックを{Block:diff()}獲得する。\n[gold]協奏[/gold]：さらにブロックを{HarmonyBlock:diff()}獲得する。",
   "SLAY_THE_STELLA_CARD_MW_TEST_CARD.title": "テストカード",
-  "SLAY_THE_STELLA_CARD_MW_TEST_CARD.description": "敵1体に{Damage:diff()}のダメージを与える。その後、すべての敵に{SplashDamage:diff()}のダメージを与える。"
+  "SLAY_THE_STELLA_CARD_MW_TEST_CARD.description": "敵1体に{Damage:diff()}のダメージを与える。その後、すべての敵に{SplashDamage:diff()}のダメージを与える。",
+  "SLAY_THE_STELLA_CARD_MW_TRACES_OF_STARLIGHT.title": "星光の道標",
+  "SLAY_THE_STELLA_CARD_MW_TRACES_OF_STARLIGHT.description": "ブロックを{Block:diff()}獲得する。\n活力を{VigorPower:diff()}獲得する。"
 }

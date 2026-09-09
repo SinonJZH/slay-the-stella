@@ -32,6 +32,10 @@ jobs:
           Write-Output "    运行平台 : ${{ runner.os }}"
           Write-Output "======================================================"
 
+      - name: 本地化一致性检查
+        shell: pwsh
+        run: ./Tools/Check-ContentConsistency.ps1   # 添加-Strict改为门禁限制
+
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v6
         with:

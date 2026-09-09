@@ -36,6 +36,7 @@ slay-the-stella/
 │   └── localization/         # 本地化 JSON（zhs 简中 / eng 英文 / jpn 日文：cards/potions/relics/characters + settings）
 │                             # （其余资源目录 images/、audios/、mod_image.png 等由用户手动维护）
 ├── FMod/                     # FMOD Studio 音频工程（项目中使用的音频中间件工程）
+├── Tools/                    # 开发辅助脚本（本地化内容一致性检查等）
 ├── _manual/                  # 参考资料
 │   ├── SlayTheSpire2ModdingTutorials/  # git submodule：官方中文 mod 教程（Basics/BaseLib）
 │   ├── STS2-RitsuLib/        # git submodule：RitsuLib 库源码（本项目依赖的 STS2.RitsuLib NuGet 包源码，查特性/脚手架实现）
@@ -64,6 +65,7 @@ slay-the-stella/
 - **卡牌立绘**：放 `SlayTheStella/images/cards/{类名}.png` 即可被 `AssetProfile` 自动找到
 - **UI 组织**：Godot 场景放 `SlayTheStella/ui/`（随 PCK 打包），配套节点脚本放 `Scripts/UI/`（编译进 DLL）；场景与脚本同名（如 `NoteUI.tscn` ↔ `NoteUI.cs`），脚本命名空间 `SlayTheStella.Scripts.UI`。分界线是"进 PCK 的资源 vs 进 DLL 的代码"，`.cs` 放 `Scripts/` 下哪个子目录不影响运行时形态
 - **战斗内自定义 UI**：需挂到 `NCombatUi` 的自定义面板用 RitsuLib 次级资源注册表 `RegisterCombatUi(localId, factory, update, changed, options)` 注册（次级资源相关内容集中在 `Scripts/Shared/SecondaryRes/ResNotes.cs`，其 `Register()` 由 `Entry.Init` 调用）；factory 用 `GD.Load<PackedScene>` + `Instantiate<T>` 从 `SlayTheStella/ui/` 场景创建，节点提供 `Bind(Player?)`（战斗进入/状态变化时调用）与变化刷新回调
+- **内容一致性检查**：`Tools/Check-ContentConsistency.ps1`（纯 PowerShell，不编译 C#，CI 可跑）校验 JSON 无 BOM/可解析、zhs/eng/jpn 键集合与文件集合一致、代码注册类 ↔ zhs 本地化键双向同步。运行 `pwsh ./Tools/Check-ContentConsistency.ps1`；`-Strict` 把 warn 也当失败（CI 门禁用）；新增卡/遗物/药水/角色时忘补本地化会被 [error] 拦下
 
 ## 资料检索（搜索优先级）
 
