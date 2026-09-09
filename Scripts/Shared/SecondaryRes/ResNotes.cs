@@ -1,10 +1,11 @@
 ﻿using Godot;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
+using SlayTheStella.Scripts.UI;
+using SlayTheStella.Scripts.Utils;
 using STS2RitsuLib;
 using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Scaffolding.Godot.NodeAttachments;
-using SlayTheStella.Scripts.UI;
-using SlayTheStella.Scripts.Utils;
 
 namespace SlayTheStella.Scripts.Shared.SecondaryRes;
 
@@ -14,20 +15,6 @@ namespace SlayTheStella.Scripts.Shared.SecondaryRes;
 /// </summary>
 public sealed class NoteCount
 {
-    public int Pummel { get; }
-    public int Luck { get; }
-    public int Burst { get; }
-    public int Stamina { get; }
-    public int Focus { get; }
-    public int Skill { get; }
-    public int Ultimate { get; }
-    public int Ignis { get; }
-    public int Aqua { get; }
-    public int Ventus { get; }
-    public int Terra { get; }
-    public int Lux { get; }
-    public int Umbra { get; }
-
     internal NoteCount(
         int pummel, int luck, int burst, int stamina, int focus, int skill, int ultimate,
         int ignis, int aqua, int ventus, int terra, int lux, int umbra)
@@ -46,6 +33,20 @@ public sealed class NoteCount
         Lux = lux;
         Umbra = umbra;
     }
+
+    public int Pummel { get; }
+    public int Luck { get; }
+    public int Burst { get; }
+    public int Stamina { get; }
+    public int Focus { get; }
+    public int Skill { get; }
+    public int Ultimate { get; }
+    public int Ignis { get; }
+    public int Aqua { get; }
+    public int Ventus { get; }
+    public int Terra { get; }
+    public int Lux { get; }
+    public int Umbra { get; }
 
     /// <summary>
     /// 根据传入的 <see cref="SecondaryResourceDefinition"/> 返回对应音符在本快照中的数量；
@@ -194,7 +195,7 @@ public static class ResNotes
     }
 
     /// <summary>获取玩家当前持有的全部 13 种音符数量快照（按注册顺序 Pummel → Umbra），并记录一条汇总日志。</summary>
-    public static NoteCount GetAllNoteCounts(Player player)
+    public static NoteCount GetAllNoteCounts(Player player, bool logDebug = false)
     {
         var counts = new NoteCount(
             SecondaryResourceCmd.Get(player, NoteMelodyOfPummelId),
@@ -211,14 +212,56 @@ public static class ResNotes
             SecondaryResourceCmd.Get(player, NoteMelodyOfLuxId),
             SecondaryResourceCmd.Get(player, NoteMelodyOfUmbraId));
 
-        StsLogger.InfoDebug(
-            $"Player {Functions.GetPlayerName(player)} current notes count: " +
-            $"Pummel:{counts.Pummel}, Luck:{counts.Luck}, Burst:{counts.Burst}, Stamina:{counts.Stamina}, " +
-            $"Focus:{counts.Focus}, Skill:{counts.Skill}, Ultimate:{counts.Ultimate}, " +
-            $"Ignis:{counts.Ignis}, Aqua:{counts.Aqua}, Ventus:{counts.Ventus}, Terra:{counts.Terra}, " +
-            $"Lux:{counts.Lux}, Umbra:{counts.Umbra}");
+        if (logDebug)
+        {
+            StsLogger.InfoDebug(
+                $"Player {Functions.GetPlayerName(player)} current notes count: " +
+                $"Pummel:{counts.Pummel}, Luck:{counts.Luck}, Burst:{counts.Burst}, Stamina:{counts.Stamina}, " +
+                $"Focus:{counts.Focus}, Skill:{counts.Skill}, Ultimate:{counts.Ultimate}, " +
+                $"Ignis:{counts.Ignis}, Aqua:{counts.Aqua}, Ventus:{counts.Ventus}, Terra:{counts.Terra}, " +
+                $"Lux:{counts.Lux}, Umbra:{counts.Umbra}");
+        }
 
         return counts;
+    }
+
+    /// <summary>
+    /// 为已注册的音符定义生成本地化悬停提示（标题/描述读 static_hover_tips 表的
+    /// <c>{Id}.title/.description</c>，含图标）。definition 为 null、未注册或不属于本模组
+    /// 13 种音符时返回 null（不抛异常）。
+    /// </summary>
+    public static IHoverTip? GetNoteHoverTip(SecondaryResourceDefinition? definition)
+    {
+        if (definition is null)
+        {
+            return null;
+        }
+
+        return TryGetNoteDefinition(definition.Id, out var note)
+            ? ModSecondaryResourceRegistry.CreateHoverTip(note.Id)
+            : null;
+    }
+
+    /// <summary>
+    /// 按完整资源 Id 获取对应的音符定义；Id 不属于本模组注册的 13 种音符时返回 false。
+    /// </summary>
+    public static bool TryGetNoteDefinition(string id, out SecondaryResourceDefinition definition)
+    {
+        if (id == NoteMelodyOfPummelId) { definition = NoteMelodyOfPummelDefinition; return true; }
+        if (id == NoteMelodyOfLuckId) { definition = NoteMelodyOfLuckDefinition; return true; }
+        if (id == NoteMelodyOfBurstId) { definition = NoteMelodyOfBurstDefinition; return true; }
+        if (id == NoteMelodyOfStaminaId) { definition = NoteMelodyOfStaminaDefinition; return true; }
+        if (id == NoteMelodyOfFocusId) { definition = NoteMelodyOfFocusDefinition; return true; }
+        if (id == NoteMelodyOfSkillId) { definition = NoteMelodyOfSkillDefinition; return true; }
+        if (id == NoteMelodyOfUltimateId) { definition = NoteMelodyOfUltimateDefinition; return true; }
+        if (id == NoteMelodyOfIgnisId) { definition = NoteMelodyOfIgnisDefinition; return true; }
+        if (id == NoteMelodyOfAquaId) { definition = NoteMelodyOfAquaDefinition; return true; }
+        if (id == NoteMelodyOfVentusId) { definition = NoteMelodyOfVentusDefinition; return true; }
+        if (id == NoteMelodyOfTerraId) { definition = NoteMelodyOfTerraDefinition; return true; }
+        if (id == NoteMelodyOfLuxId) { definition = NoteMelodyOfLuxDefinition; return true; }
+        if (id == NoteMelodyOfUmbraId) { definition = NoteMelodyOfUmbraDefinition; return true; }
+        definition = null!;
+        return false;
     }
 
     /// <summary>获取玩家当前拥有的「强攻之音」数量。</summary>

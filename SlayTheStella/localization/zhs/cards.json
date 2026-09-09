@@ -6,5 +6,5 @@
   "SLAY_THE_STELLA_CARD_MW_TEST_CARD.title": "测试卡牌",
   "SLAY_THE_STELLA_CARD_MW_TEST_CARD.description": "对一名敌人造成{Damage:diff()}点伤害，然后对所有敌人造成{SplashDamage:diff()}点伤害。",
   "SLAY_THE_STELLA_CARD_MW_TRACES_OF_STARLIGHT.title": "星光的印记",
-  "SLAY_THE_STELLA_CARD_MW_TRACES_OF_STARLIGHT.description": "获得{Block:diff()}点格挡。\n获得{VigorPower}点[gold]活力[/gold]。"
+  "SLAY_THE_STELLA_CARD_MW_TRACES_OF_STARLIGHT.description": "获得{Block:diff()}点格挡。\n获得{VigorPower:diff()}点[gold]活力[/gold]。"
 }

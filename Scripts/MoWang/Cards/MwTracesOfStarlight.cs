@@ -6,7 +6,6 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using SlayTheStella.Scripts.MoWang.Models;
-using SlayTheStella.Scripts.Shared;
 using SlayTheStella.Scripts.Shared.SecondaryRes;
 using STS2RitsuLib.Combat.SecondaryResources;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -20,8 +19,13 @@ public class MwTracesOfStarlight() : MwDiscCardModel(2, CardType.Skill, CardRari
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(9m, ValueProp.Move),
-        new PowerVar<VigorPower>(4m)
+        new BlockVar(12m, ValueProp.Move),
+        new PowerVar<VigorPower>(5m)
+    ];
+
+    protected override IEnumerable<IHoverTip> MoreAdditionalHoverTips =>
+    [
+        HoverTipFactory.FromPower<VigorPower>()
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -37,11 +41,6 @@ public class MwTracesOfStarlight() : MwDiscCardModel(2, CardType.Skill, CardRari
         DynamicVars.Block.UpgradeValueBy(4m);
         DynamicVars["VigorPower"].UpgradeValueBy(2m);
     }
-
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-    [
-        HoverTipFactory.FromPower<VigorPower>()
-    ];
 
     public override List<SecondaryResourceDefinition> GetDiscNote() =>
     [
