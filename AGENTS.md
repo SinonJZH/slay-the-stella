@@ -36,11 +36,13 @@ slay-the-stella/
 │   └── localization/         # 本地化 JSON（zhs 简中 / eng 英文 / jpn 日文：cards/potions/relics/characters + settings）
 │                             # （其余资源目录 images/、audios/、mod_image.png 等由用户手动维护）
 ├── FMod/                     # FMOD Studio 音频工程（项目中使用的音频中间件工程）
-├── Tools/                    # 开发辅助脚本（本地化内容一致性检查等）
+├── Tools/                    # 开发辅助脚本（本地化内容一致性检查、术语表索引生成等）
 ├── _manual/                  # 参考资料
 │   ├── SlayTheSpire2ModdingTutorials/  # git submodule：官方中文 mod 教程（Basics/BaseLib）
 │   ├── STS2-RitsuLib/        # git submodule：RitsuLib 库源码（本项目依赖的 STS2.RitsuLib NuGet 包源码，查特性/脚手架实现）
-│   ├── sts2_export/          # sts2 反编译源码（本地参考，已被 .gitignore 忽略；含 sts2.sln 与反编译出的 C# 源码）
+│   ├── sts2_export/          # sts2 反编译源码（本地参考，已被 .gitignore 忽略；含 sts2.sln 与反编译出的 C# 源码，localization/ 下有 17 语言官方本地化 JSON）
+│   ├── sts2-official-effects-survey.md # STS2 官方效果实现参考手册（agent 实现效果的首选查典：钩子总表/命令 API/模式归档/术语对照）
+│   ├── sts2-effect-dev-tutorial.md     # 效果实现教程（面向人类新手的课堂教学版，agent 无需读取）
 │   └── stella-sora-glossary.md         # 《星塔旅人》术语表
 ├── project.godot             # Godot 项目配置
 ├── SlayTheStella.csproj      # 项目文件（含自动复制 mod 到游戏目录的 Target）
@@ -72,6 +74,8 @@ slay-the-stella/
 - **优先查本地**，按顺序：
   1. `_manual/SlayTheSpire2ModdingTutorials/`（官方中文 mod 教程 git submodule，含 Basics/BaseLib/RitsuLib/Visuals 等）
   2. `_manual/STS2-RitsuLib/`（RitsuLib 库源码 git submodule，查 AutoRegistration 特性、`ModCharacterTemplate`、`DamageCmd` 等库内实现）
-  3. `_manual/sts2_export/`（sts2 反编译源码，查游戏本体 API/类型签名；本地目录，已被 .gitignore 忽略）
+  3. `_manual/sts2_export/`（sts2 反编译源码，查游戏本体 API/类型签名；本地目录，已被 .gitignore 忽略；`localization/` 下有官方三语本地化 JSON，查术语译名直接 grep）
+  4. `_manual/sts2-official-effects-survey.md`（官方效果实现参考手册：实现效果时**首选查这里**，含钩子总表/命令 API/效果模式归档/术语对照；`sts2-effect-dev-tutorial.md` 是配套的人类新手教学版，agent 无需读取）
   能查到就不必联网
+- **游戏术语表按索引读**：查《星塔旅人》三语术语（角色/秘纹/音符/物品/阵营等）用 `_manual/stella-sora-glossary.md`；该文件开头有「目录索引（行号导航）」，先读前100行，用索引定位小节行区间，再读所需小节，不要整文件读取；查单个词条也可直接 `grep -F "词条"` 命中整行表格拿三语对照。术语表正文增删行后运行 `pwsh ./Tools/Update-GlossaryIndex.ps1` 。
 - **本地不足再联网**：使用`web_search`等在线搜索工具执行联网搜索。
